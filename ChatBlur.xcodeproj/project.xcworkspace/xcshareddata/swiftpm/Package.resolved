@@ -1,0 +1,23 @@
+{
+  "pins" : [
+    {
+      "identity" : "alamofire",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Alamofire/Alamofire.git",
+      "state" : {
+        "revision" : "3dc6a42c7727c49bf26508e29b0a0b35f9c7e1ad",
+        "version" : "5.8.1"
+      }
+    },
+    {
+      "identity" : "flexlayout",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/layoutBox/FlexLayout.git",
+      "state" : {
+        "revision" : "0e0e276ab8d780690ff5f30bf70eee79e3074014",
+        "version" : "2.0.3"
+      }
+    }
+  ],
+  "version" : 2
+}
