@@ -7,15 +7,38 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		24316A2C2B3D8AED00455DEC /* UIKitBooster in Frameworks */ = {isa = PBXBuildFile; productRef = 24316A2B2B3D8AED00455DEC /* UIKitBooster */; };
+		24316A352B3DA20400455DEC /* PinLayout in Frameworks */ = {isa = PBXBuildFile; productRef = 24316A342B3DA20400455DEC /* PinLayout */; };
+		24316A382B3DCD0200455DEC /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24316A372B3DCD0100455DEC /* Constants.swift */; };
+		24316A3C2B3DDA5D00455DEC /* AppFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24316A3B2B3DDA5D00455DEC /* AppFont.swift */; };
+		24316A3E2B3E5FA200455DEC /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24316A3D2B3E5FA200455DEC /* LoginViewModel.swift */; };
+		24316A412B3E6C5D00455DEC /* ViewModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24316A402B3E6C5C00455DEC /* ViewModelType.swift */; };
+		24316A432B3E826800455DEC /* ASAuthorizationAppleIDButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24316A422B3E826800455DEC /* ASAuthorizationAppleIDButton.swift */; };
+		24316A452B3F214B00455DEC /* KeychainItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24316A442B3F214B00455DEC /* KeychainItem.swift */; };
 		24B6F1922B3C56FC00D7554F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24B6F1912B3C56FC00D7554F /* AppDelegate.swift */; };
 		24B6F1942B3C56FC00D7554F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24B6F1932B3C56FC00D7554F /* SceneDelegate.swift */; };
-		24B6F1962B3C56FC00D7554F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24B6F1952B3C56FC00D7554F /* ViewController.swift */; };
+		24B6F1962B3C56FC00D7554F /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24B6F1952B3C56FC00D7554F /* LoginViewController.swift */; };
 		24B6F19B2B3C56FE00D7554F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 24B6F19A2B3C56FE00D7554F /* Assets.xcassets */; };
 		24B6F19E2B3C56FE00D7554F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 24B6F19C2B3C56FE00D7554F /* LaunchScreen.storyboard */; };
 		24B6F1A92B3C56FF00D7554F /* ChatBlurTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24B6F1A82B3C56FF00D7554F /* ChatBlurTests.swift */; };
 		24B6F1B32B3C56FF00D7554F /* ChatBlurUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24B6F1B22B3C56FF00D7554F /* ChatBlurUITests.swift */; };
 		24B6F1B52B3C56FF00D7554F /* ChatBlurUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24B6F1B42B3C56FF00D7554F /* ChatBlurUITestsLaunchTests.swift */; };
 		24B6F1C32B3C697100D7554F /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 24B6F1C22B3C697100D7554F /* Alamofire */; };
+		24B6F1C92B3C780600D7554F /* FlexLayout in Frameworks */ = {isa = PBXBuildFile; productRef = 24B6F1C82B3C780600D7554F /* FlexLayout */; };
+		24B6F1CB2B3C780600D7554F /* FlexLayoutYoga in Frameworks */ = {isa = PBXBuildFile; productRef = 24B6F1CA2B3C780600D7554F /* FlexLayoutYoga */; };
+		24B6F1CD2B3C780600D7554F /* FlexLayoutYogaKit in Frameworks */ = {isa = PBXBuildFile; productRef = 24B6F1CC2B3C780600D7554F /* FlexLayoutYogaKit */; };
+		24B6F1CF2B3C780600D7554F /* RxBlocking in Frameworks */ = {isa = PBXBuildFile; productRef = 24B6F1CE2B3C780600D7554F /* RxBlocking */; };
+		24B6F1D12B3C780600D7554F /* RxBlocking-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 24B6F1D02B3C780600D7554F /* RxBlocking-Dynamic */; };
+		24B6F1D22B3C780600D7554F /* RxBlocking-Dynamic in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 24B6F1D02B3C780600D7554F /* RxBlocking-Dynamic */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		24B6F1D42B3C780600D7554F /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 24B6F1D32B3C780600D7554F /* RxCocoa */; };
+		24B6F1D62B3C780600D7554F /* RxCocoa-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 24B6F1D52B3C780600D7554F /* RxCocoa-Dynamic */; };
+		24B6F1D72B3C780600D7554F /* RxCocoa-Dynamic in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 24B6F1D52B3C780600D7554F /* RxCocoa-Dynamic */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		24B6F1D92B3C780600D7554F /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = 24B6F1D82B3C780600D7554F /* RxRelay */; };
+		24B6F1DB2B3C780600D7554F /* RxRelay-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 24B6F1DA2B3C780600D7554F /* RxRelay-Dynamic */; };
+		24B6F1DC2B3C780600D7554F /* RxRelay-Dynamic in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 24B6F1DA2B3C780600D7554F /* RxRelay-Dynamic */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		24B6F1DE2B3C780600D7554F /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 24B6F1DD2B3C780600D7554F /* RxSwift */; };
+		24B6F1E02B3C780600D7554F /* RxSwift-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 24B6F1DF2B3C780600D7554F /* RxSwift-Dynamic */; };
+		24B6F1E12B3C780600D7554F /* RxSwift-Dynamic in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 24B6F1DF2B3C780600D7554F /* RxSwift-Dynamic */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,11 +58,35 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		24B6F1E72B3C780600D7554F /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				24B6F1E12B3C780600D7554F /* RxSwift-Dynamic in Embed Frameworks */,
+				24B6F1D72B3C780600D7554F /* RxCocoa-Dynamic in Embed Frameworks */,
+				24B6F1D22B3C780600D7554F /* RxBlocking-Dynamic in Embed Frameworks */,
+				24B6F1DC2B3C780600D7554F /* RxRelay-Dynamic in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		24316A372B3DCD0100455DEC /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		24316A3B2B3DDA5D00455DEC /* AppFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFont.swift; sourceTree = "<group>"; };
+		24316A3D2B3E5FA200455DEC /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
+		24316A402B3E6C5C00455DEC /* ViewModelType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelType.swift; sourceTree = "<group>"; };
+		24316A422B3E826800455DEC /* ASAuthorizationAppleIDButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ASAuthorizationAppleIDButton.swift; sourceTree = "<group>"; };
+		24316A442B3F214B00455DEC /* KeychainItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainItem.swift; sourceTree = "<group>"; };
+		24316A462B3FB82200455DEC /* ChatBlur.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ChatBlur.entitlements; sourceTree = "<group>"; };
 		24B6F18E2B3C56FC00D7554F /* ChatBlur.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChatBlur.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		24B6F1912B3C56FC00D7554F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		24B6F1932B3C56FC00D7554F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		24B6F1952B3C56FC00D7554F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		24B6F1952B3C56FC00D7554F /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		24B6F19A2B3C56FE00D7554F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		24B6F19D2B3C56FE00D7554F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		24B6F19F2B3C56FE00D7554F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -55,7 +102,20 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				24B6F1D92B3C780600D7554F /* RxRelay in Frameworks */,
+				24B6F1D62B3C780600D7554F /* RxCocoa-Dynamic in Frameworks */,
+				24316A2C2B3D8AED00455DEC /* UIKitBooster in Frameworks */,
 				24B6F1C32B3C697100D7554F /* Alamofire in Frameworks */,
+				24B6F1C92B3C780600D7554F /* FlexLayout in Frameworks */,
+				24B6F1E02B3C780600D7554F /* RxSwift-Dynamic in Frameworks */,
+				24B6F1CD2B3C780600D7554F /* FlexLayoutYogaKit in Frameworks */,
+				24B6F1D42B3C780600D7554F /* RxCocoa in Frameworks */,
+				24B6F1DB2B3C780600D7554F /* RxRelay-Dynamic in Frameworks */,
+				24B6F1D12B3C780600D7554F /* RxBlocking-Dynamic in Frameworks */,
+				24B6F1CB2B3C780600D7554F /* FlexLayoutYoga in Frameworks */,
+				24B6F1CF2B3C780600D7554F /* RxBlocking in Frameworks */,
+				24316A352B3DA20400455DEC /* PinLayout in Frameworks */,
+				24B6F1DE2B3C780600D7554F /* RxSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -76,6 +136,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		24316A362B3DCCF100455DEC /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				24316A372B3DCD0100455DEC /* Constants.swift */,
+				24316A3B2B3DDA5D00455DEC /* AppFont.swift */,
+				24316A442B3F214B00455DEC /* KeychainItem.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		24316A3F2B3E6C2000455DEC /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				24316A402B3E6C5C00455DEC /* ViewModelType.swift */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
 		24B6F1852B3C56FC00D7554F = {
 			isa = PBXGroup;
 			children = (
@@ -83,6 +161,7 @@
 				24B6F1A72B3C56FF00D7554F /* ChatBlurTests */,
 				24B6F1B12B3C56FF00D7554F /* ChatBlurUITests */,
 				24B6F18F2B3C56FC00D7554F /* Products */,
+				24B6F1C72B3C780600D7554F /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -99,9 +178,13 @@
 		24B6F1902B3C56FC00D7554F /* ChatBlur */ = {
 			isa = PBXGroup;
 			children = (
+				24316A462B3FB82200455DEC /* ChatBlur.entitlements */,
+				24316A3F2B3E6C2000455DEC /* Common */,
+				24316A362B3DCCF100455DEC /* Utilities */,
+				24B6F1E82B3C7A9F00D7554F /* Extensions */,
+				24B6F1C52B3C737E00D7554F /* ViewControllers */,
 				24B6F1912B3C56FC00D7554F /* AppDelegate.swift */,
 				24B6F1932B3C56FC00D7554F /* SceneDelegate.swift */,
-				24B6F1952B3C56FC00D7554F /* ViewController.swift */,
 				24B6F19A2B3C56FE00D7554F /* Assets.xcassets */,
 				24B6F19C2B3C56FE00D7554F /* LaunchScreen.storyboard */,
 				24B6F19F2B3C56FE00D7554F /* Info.plist */,
@@ -126,6 +209,30 @@
 			path = ChatBlurUITests;
 			sourceTree = "<group>";
 		};
+		24B6F1C52B3C737E00D7554F /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				24B6F1952B3C56FC00D7554F /* LoginViewController.swift */,
+				24316A3D2B3E5FA200455DEC /* LoginViewModel.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		24B6F1C72B3C780600D7554F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		24B6F1E82B3C7A9F00D7554F /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				24316A422B3E826800455DEC /* ASAuthorizationAppleIDButton.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -136,6 +243,7 @@
 				24B6F18A2B3C56FC00D7554F /* Sources */,
 				24B6F18B2B3C56FC00D7554F /* Frameworks */,
 				24B6F18C2B3C56FC00D7554F /* Resources */,
+				24B6F1E72B3C780600D7554F /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -144,6 +252,19 @@
 			name = ChatBlur;
 			packageProductDependencies = (
 				24B6F1C22B3C697100D7554F /* Alamofire */,
+				24B6F1C82B3C780600D7554F /* FlexLayout */,
+				24B6F1CA2B3C780600D7554F /* FlexLayoutYoga */,
+				24B6F1CC2B3C780600D7554F /* FlexLayoutYogaKit */,
+				24B6F1CE2B3C780600D7554F /* RxBlocking */,
+				24B6F1D02B3C780600D7554F /* RxBlocking-Dynamic */,
+				24B6F1D32B3C780600D7554F /* RxCocoa */,
+				24B6F1D52B3C780600D7554F /* RxCocoa-Dynamic */,
+				24B6F1D82B3C780600D7554F /* RxRelay */,
+				24B6F1DA2B3C780600D7554F /* RxRelay-Dynamic */,
+				24B6F1DD2B3C780600D7554F /* RxSwift */,
+				24B6F1DF2B3C780600D7554F /* RxSwift-Dynamic */,
+				24316A2B2B3D8AED00455DEC /* UIKitBooster */,
+				24316A342B3DA20400455DEC /* PinLayout */,
 			);
 			productName = ChatBlur;
 			productReference = 24B6F18E2B3C56FC00D7554F /* ChatBlur.app */;
@@ -220,6 +341,9 @@
 			packageReferences = (
 				24B6F1C12B3C697100D7554F /* XCRemoteSwiftPackageReference "Alamofire" */,
 				24B6F1C42B3C6F0300D7554F /* XCRemoteSwiftPackageReference "FlexLayout" */,
+				24B6F1C62B3C73C000D7554F /* XCRemoteSwiftPackageReference "RxSwift" */,
+				24316A2A2B3D8AED00455DEC /* XCRemoteSwiftPackageReference "UIKitBooster" */,
+				24316A332B3DA20400455DEC /* XCRemoteSwiftPackageReference "PinLayout" */,
 			);
 			productRefGroup = 24B6F18F2B3C56FC00D7554F /* Products */;
 			projectDirPath = "";
@@ -263,9 +387,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				24B6F1962B3C56FC00D7554F /* ViewController.swift in Sources */,
+				24B6F1962B3C56FC00D7554F /* LoginViewController.swift in Sources */,
+				24316A432B3E826800455DEC /* ASAuthorizationAppleIDButton.swift in Sources */,
+				24316A3C2B3DDA5D00455DEC /* AppFont.swift in Sources */,
+				24316A3E2B3E5FA200455DEC /* LoginViewModel.swift in Sources */,
 				24B6F1922B3C56FC00D7554F /* AppDelegate.swift in Sources */,
 				24B6F1942B3C56FC00D7554F /* SceneDelegate.swift in Sources */,
+				24316A382B3DCD0200455DEC /* Constants.swift in Sources */,
+				24316A412B3E6C5D00455DEC /* ViewModelType.swift in Sources */,
+				24316A452B3F214B00455DEC /* KeychainItem.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -365,7 +495,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -422,7 +552,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -437,15 +567,18 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = ChatBlur/ChatBlur.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = KZ7GPQGAGJ;
+				"GCC_PREPROCESSOR_DEFINITIONS[arch=*]" = "FLEXLAYOUT_SWIFT_PACKAGE=1";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ChatBlur/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -453,9 +586,12 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.gghoneycomb.ChatBlur;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -464,15 +600,18 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = ChatBlur/ChatBlur.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = KZ7GPQGAGJ;
+				"GCC_PREPROCESSOR_DEFINITIONS[arch=*]" = "FLEXLAYOUT_SWIFT_PACKAGE=1";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ChatBlur/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -480,9 +619,12 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.gghoneycomb.ChatBlur;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -604,6 +746,22 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		24316A2A2B3D8AED00455DEC /* XCRemoteSwiftPackageReference "UIKitBooster" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "git@github.com:happyduck-git/UIKitBooster.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+		24316A332B3DA20400455DEC /* XCRemoteSwiftPackageReference "PinLayout" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/layoutBox/PinLayout.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.10.5;
+			};
+		};
 		24B6F1C12B3C697100D7554F /* XCRemoteSwiftPackageReference "Alamofire" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
@@ -620,13 +778,86 @@
 				minimumVersion = 2.0.3;
 			};
 		};
+		24B6F1C62B3C73C000D7554F /* XCRemoteSwiftPackageReference "RxSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ReactiveX/RxSwift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.6.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		24316A2B2B3D8AED00455DEC /* UIKitBooster */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 24316A2A2B3D8AED00455DEC /* XCRemoteSwiftPackageReference "UIKitBooster" */;
+			productName = UIKitBooster;
+		};
+		24316A342B3DA20400455DEC /* PinLayout */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 24316A332B3DA20400455DEC /* XCRemoteSwiftPackageReference "PinLayout" */;
+			productName = PinLayout;
+		};
 		24B6F1C22B3C697100D7554F /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 24B6F1C12B3C697100D7554F /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
+		};
+		24B6F1C82B3C780600D7554F /* FlexLayout */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 24B6F1C42B3C6F0300D7554F /* XCRemoteSwiftPackageReference "FlexLayout" */;
+			productName = FlexLayout;
+		};
+		24B6F1CA2B3C780600D7554F /* FlexLayoutYoga */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 24B6F1C42B3C6F0300D7554F /* XCRemoteSwiftPackageReference "FlexLayout" */;
+			productName = FlexLayoutYoga;
+		};
+		24B6F1CC2B3C780600D7554F /* FlexLayoutYogaKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 24B6F1C42B3C6F0300D7554F /* XCRemoteSwiftPackageReference "FlexLayout" */;
+			productName = FlexLayoutYogaKit;
+		};
+		24B6F1CE2B3C780600D7554F /* RxBlocking */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 24B6F1C62B3C73C000D7554F /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxBlocking;
+		};
+		24B6F1D02B3C780600D7554F /* RxBlocking-Dynamic */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 24B6F1C62B3C73C000D7554F /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = "RxBlocking-Dynamic";
+		};
+		24B6F1D32B3C780600D7554F /* RxCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 24B6F1C62B3C73C000D7554F /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxCocoa;
+		};
+		24B6F1D52B3C780600D7554F /* RxCocoa-Dynamic */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 24B6F1C62B3C73C000D7554F /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = "RxCocoa-Dynamic";
+		};
+		24B6F1D82B3C780600D7554F /* RxRelay */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 24B6F1C62B3C73C000D7554F /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxRelay;
+		};
+		24B6F1DA2B3C780600D7554F /* RxRelay-Dynamic */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 24B6F1C62B3C73C000D7554F /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = "RxRelay-Dynamic";
+		};
+		24B6F1DD2B3C780600D7554F /* RxSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 24B6F1C62B3C73C000D7554F /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxSwift;
+		};
+		24B6F1DF2B3C780600D7554F /* RxSwift-Dynamic */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 24B6F1C62B3C73C000D7554F /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = "RxSwift-Dynamic";
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
