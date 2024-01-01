@@ -23,7 +23,6 @@ final class LoginViewController: UIViewController {
     //MARK: - UI Elements
     private let flexContainer: UIView = {
         let view = UIView()
-        view.backgroundColor = .systemYellow
         return view
     }()
     
@@ -54,7 +53,7 @@ final class LoginViewController: UIViewController {
         let button = UIButton()
         button.setTitle(LoginViewConstants.findPassword, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: AppFont.small)
-        button.setTitleColor(.text, for: .normal)
+        button.setTitleColor(.secondaryText, for: .normal)
         return button
     }()
     
@@ -63,9 +62,10 @@ final class LoginViewController: UIViewController {
         button.backgroundColor = .buttonDeactivated
         button.setTitle(LoginViewConstants.login, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: AppFont.normal)
+        button.setTitleColor(.white, for: .normal)
         button.clipsToBounds = true
         button.layer.cornerRadius = 20
-        button.setTitleColor(.text, for: .normal)
+        button.setTitleColor(.buttonActivated, for: .normal)
         return button
     }()
     
@@ -93,6 +93,22 @@ final class LoginViewController: UIViewController {
         return button
     }()
     
+    private let signupLabel: UILabel = {
+        let label = UILabel()
+        label.text = LoginViewConstants.createNewAccount
+        label.font = .systemFont(ofSize: AppFont.small)
+        label.textColor = .secondaryLabel
+        return label
+    }()
+    
+    private let signupButton: UIButton = {
+        let btn = UIButton()
+        btn.setTitle(LoginViewConstants.signup, for: .normal)
+        btn.setTitleColor(.buttonActivated, for: .normal)
+        btn.titleLabel?.font = .systemFont(ofSize: AppFont.normal)
+        return btn
+    }()
+    
     //MARK: - Init
     init(vm: LoginViewModel) {
         self.vm = vm
@@ -106,6 +122,7 @@ final class LoginViewController: UIViewController {
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.backgroundColor = .background
         
         self.setUI()
         self.setLayout()
@@ -135,6 +152,14 @@ extension LoginViewController {
             })
             .disposed(by: disposeBag)
         
+        self.signupButton.rx.tap
+            .asDriver()
+            .drive { [weak self] _ in
+                guard let `self` = self else { return }
+                self.showSignupVC()
+            }
+            .disposed(by: disposeBag)
+        
         let input = LoginViewModel.Input(emailTextType: self.emailTextField.rx.text.orEmpty.asObservable(),
                                          passwordTextType: self.pwdTextField.rx.text.orEmpty.asObservable())
         
@@ -145,6 +170,10 @@ extension LoginViewController {
                 guard let `self` = self else { return }
                 self.loginButton.isEnabled = isActive
                 self.loginButton.backgroundColor = isActive ? .buttonActivated : .buttonDeactivated
+                self.loginButton.setTitleColor(
+                    isActive ? .buttonActivatedTitle : .buttonDeactivatedTitle,
+                                               for: .normal
+                )
             }
             .disposed(by: disposeBag)
             
@@ -220,6 +249,16 @@ extension LoginViewController {
                     .marginTop(2%)
                     .height(eleHeight)
                     .width(eleWidth)
+                
+                flex.addItem()
+                    .direction(.row)
+                    .define { flex in
+                        flex.addItem(self.signupLabel)
+                            .marginRight(5%)
+                        flex.addItem(self.signupButton)
+                    }
+                    .marginTop(5%)
+                
             }
             .alignItems(.center)
     }
@@ -301,6 +340,13 @@ extension LoginViewController: ASAuthorizationControllerDelegate, ASAuthorizatio
     }
 }
 
+extension LoginViewController {
+    private func showSignupVC() {
+        let vm = SignupViewModel()
+        let vc = SignupViewController(vm: vm)
+        self.show(vc, sender: self)
+    }
+}
 
 
 #Preview(nil,
