@@ -84,24 +84,24 @@ final class SignupViewModel: ViewModelType {
             return $0 && $1 && $2 && $3 && !$4 && !$5 && !$6
         }
         
-        let signupInfo = Observable.combineLatest(input.email, input.password).compactMap { $0 }
+        let signupInfo = Observable.combineLatest(input.email, input.password, input.username).compactMap { $0 }
         
         let isLoading = PublishRelay<Bool>()
         
         let signup = input.signupBtnTrigger.withLatestFrom(signupInfo)
-            .map { [weak self] email, pwd in
+            .map { [weak self] email, pwd, username in
                 guard let `self` = self else { return }
                 isLoading.accept(true)
                 Task {
                     do {
-                        print("Save triggered")
-                        try await Task.sleep(nanoseconds: 2_000_000_000)
-    //                    await self.signupWithEmailAndPassword(email: email, password: pwd)
+                        try await self.signupWithEmailAndPassword(email: email,
+                                                                  password: pwd,
+                                                                  username: username)
                         isLoading.accept(false)
       
                     }
                     catch {
-                        print("Error ")
+                        print("Error \(error)")
                         errorRelay.accept(error)
                     }
                 }
@@ -153,8 +153,9 @@ extension SignupViewModel {
 
 // Sign Up
 extension SignupViewModel {
-    func signupWithEmailAndPassword(email: String, password: String) async throws {
-        try await supabaseManager.loginWithEmailAndPassword(email: email,
-                                                            password: password)
+    func signupWithEmailAndPassword(email: String, password: String, username: String) async throws {
+        try await supabaseManager.signupWithEmailAndPassword(email: email,
+                                                             password: password,
+                                                             username: username)
     }
 }

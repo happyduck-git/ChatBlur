@@ -16,6 +16,7 @@ enum LoginViewConstants {
     static let login = String(localized: "Login")
     static let signup = String(localized: "Sign Up")
     static let createNewAccount = String(localized: "Don't have an account yet?")
+    static let confirm = String(localized: "Confirm")
 }
 
 enum SignupConstants {

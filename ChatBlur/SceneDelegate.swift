@@ -9,12 +9,24 @@ import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
+    private let supabaseManager = SupabaseManager.shared
+    
     var window: UIWindow?
 
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
+        
+        Task {
+            do {
+                let user = try await supabaseManager.checkSession()
+                print("\(#function) Session: " + (user.email ?? ""))
+            }
+            catch {
+                
+            }
+        }
         
         let vm = LoginViewModel()
         let vc = LoginViewController(vm: vm)
