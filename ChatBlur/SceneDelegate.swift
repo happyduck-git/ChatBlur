@@ -18,18 +18,20 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
         
-        Task {
-            do {
-                let user = try await supabaseManager.checkSession()
-                print("\(#function) Session: " + (user.email ?? ""))
-            }
-            catch {
-                
-            }
-        }
+//        Task {
+//            do {
+//                let user = try await supabaseManager.checkSession()
+//                print("\(#function) Session: " + (user.email ?? ""))
+//            }
+//            catch {
+//                
+//            }
+//        }
+//        
+//        let vm = LoginViewModel()
+//        let vc = LoginViewController(vm: vm)
         
-        let vm = LoginViewModel()
-        let vc = LoginViewController(vm: vm)
+        let vc = ChatListViewController()
         window?.rootViewController = UINavigationController(rootViewController: vc)
         window?.makeKeyAndVisible()
     }

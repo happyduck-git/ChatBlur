@@ -45,6 +45,7 @@
 		24316ADD2B42BB8C00455DEC /* TabbarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24316ADC2B42BB8B00455DEC /* TabbarViewModel.swift */; };
 		24316ADF2B42C58800455DEC /* FriendsListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24316ADE2B42C58800455DEC /* FriendsListViewModel.swift */; };
 		24316AE42B43BDD500455DEC /* AppleLoginManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24316AE32B43BDD500455DEC /* AppleLoginManager.swift */; };
+		24316AE92B4452CB00455DEC /* ChatTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24316AE82B4452CA00455DEC /* ChatTextField.swift */; };
 		24B6F1922B3C56FC00D7554F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24B6F1912B3C56FC00D7554F /* AppDelegate.swift */; };
 		24B6F1942B3C56FC00D7554F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24B6F1932B3C56FC00D7554F /* SceneDelegate.swift */; };
 		24B6F1962B3C56FC00D7554F /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24B6F1952B3C56FC00D7554F /* LoginViewController.swift */; };
@@ -128,6 +129,7 @@
 		24316ADC2B42BB8B00455DEC /* TabbarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabbarViewModel.swift; sourceTree = "<group>"; };
 		24316ADE2B42C58800455DEC /* FriendsListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsListViewModel.swift; sourceTree = "<group>"; };
 		24316AE32B43BDD500455DEC /* AppleLoginManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleLoginManager.swift; sourceTree = "<group>"; };
+		24316AE82B4452CA00455DEC /* ChatTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTextField.swift; sourceTree = "<group>"; };
 		24B6F18E2B3C56FC00D7554F /* ChatBlur.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChatBlur.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		24B6F1912B3C56FC00D7554F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		24B6F1932B3C56FC00D7554F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -266,6 +268,22 @@
 			path = Main;
 			sourceTree = "<group>";
 		};
+		24316AE62B4452B300455DEC /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				24316AE72B4452BA00455DEC /* Main */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		24316AE72B4452BA00455DEC /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				24316AE82B4452CA00455DEC /* ChatTextField.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
 		24B6F1852B3C56FC00D7554F = {
 			isa = PBXGroup;
 			children = (
@@ -290,6 +308,7 @@
 		24B6F1902B3C56FC00D7554F /* ChatBlur */ = {
 			isa = PBXGroup;
 			children = (
+				24316AE62B4452B300455DEC /* Views */,
 				24316AD02B4269CC00455DEC /* Model */,
 				24316AA22B40745F00455DEC /* Config.xcconfig */,
 				24316A9F2B40715000455DEC /* Managers */,
@@ -545,6 +564,7 @@
 				24316AD52B42AEAD00455DEC /* MainTabbarViewController.swift in Sources */,
 				24316A412B3E6C5D00455DEC /* ViewModelType.swift in Sources */,
 				24316A452B3F214B00455DEC /* KeychainItem.swift in Sources */,
+				24316AE92B4452CB00455DEC /* ChatTextField.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
