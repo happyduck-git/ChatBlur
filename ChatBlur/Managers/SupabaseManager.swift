@@ -15,11 +15,25 @@ protocol AuthClient {
 
 protocol Repository {
     func saveUser(_ uid: UUID, user: ChatUser) async throws
+    func saveFriend(with email: String) async throws
 }
 
 final actor SupabaseManager {
     static let shared: SupabaseManager = SupabaseManager()
     private init() {}
+
+    enum SupabaseFunction: String {
+        case insertFriend = "insert_friend"
+        case profileId = "profile_id"
+        case friendName = "friend_name"
+    }
+    
+    enum Profiles: String {
+        case id
+        case profiles
+        case email
+        case friendsList = "friends_list"
+    }
     
     private let supabase: SupabaseClient = SupabaseClient(supabaseURL: EnvironmentConfig.supabaseUrl,
                                                           supabaseKey: EnvironmentConfig.supabaseAnon)
@@ -41,9 +55,12 @@ extension SupabaseManager: AuthClient {
         )
         // Insert additional info to database.
         try await self.saveUser(response.user.id,
-                                user: ChatUser(updatedAt: response.user.updatedAt,
+                                user: ChatUser(id: response.user.id,
+                                               updatedAt: response.user.updatedAt,
                                                createdAt: response.user.createdAt,
-                                               username: username))
+                                               username: username,
+                                               email: email,
+                                               friendsList: []))
     }
     
     /// Sign in with email and password
@@ -68,6 +85,8 @@ extension SupabaseManager: AuthClient {
             )
     }
     
+    /// Check if session is valid
+    /// - Returns: User
     func checkSession() async throws -> User {
         return try await supabase.auth.user()
     }
@@ -76,9 +95,51 @@ extension SupabaseManager: AuthClient {
 extension SupabaseManager: Repository {
     func saveUser(_ uid: UUID, user: ChatUser) async throws {
         try await supabase.database
-            .from("profiles")
+            .from(Profiles.profiles.rawValue)
             .update(user)
-            .eq("id", value: uid)
+            .eq(Profiles.id.rawValue, value: uid)
             .execute()
+    }
+    
+    func saveFriend(with email: String) async throws {
+        let user = try await supabase.auth.user()
+        let friend = try await self.findUser(with: email)
+
+        guard let friend else {
+            print("Friend with \(email) is not found in DB.")
+            return
+        }
+        
+        try await supabase.database
+            .rpc(SupabaseFunction.insertFriend.rawValue, params: [
+                SupabaseFunction.profileId.rawValue: "\(user.id)",
+                SupabaseFunction.friendName.rawValue: "\(friend.id)"
+            ])
+            .execute()
+    }
+    
+    func findUser(with email: String) async throws -> ChatUser? {
+        let result: [ChatUser] = try await supabase.database
+            .from(Profiles.profiles.rawValue)
+            .select()
+            .eq(Profiles.email.rawValue, value: email)
+            .execute()
+            .value
+        
+        return result.first
+    }
+    
+    func fetchFriends(of id: UUID) async throws -> Any {
+        let result: Any = try await supabase.database
+            .from(Profiles.profiles.rawValue)
+            .select(Profiles.friendsList.rawValue)
+            .eq(Profiles.id.rawValue, value: id)
+            .execute()
+            .value
+        return result
+    }
+    
+    func fetchUserInfo() async throws -> User {
+        return try await supabase.auth.user()
     }
 }

@@ -58,6 +58,10 @@ final class ChatListViewController: UIViewController {
         self.setDelegate()
         
         self.setNotification()
+        
+//        self.demoSaveFriend()
+        self.demo_fetchFriendsList()
+        
     }
 
     override func viewDidLayoutSubviews() {
@@ -172,6 +176,39 @@ extension ChatListViewController: UITextFieldDelegate {
         self.view.setNeedsLayout()
     }
 
+}
+
+extension ChatListViewController {
+    //test3@mail.com
+    //test2@email.com
+//    private func demoSaveFriend() {
+//        Task {
+//            do {
+//                try await SupabaseManager.shared
+//                    .saveFriend(with: "test3@mail.com")
+//            }
+//            catch {
+//                print("Error saving friend. -- \(error)")
+//            }
+//        }
+//        
+//    }
+    
+    private func demo_fetchFriendsList() {
+        let supabase = SupabaseManager.shared
+        
+        Task {
+            do {
+                let user = try await supabase.fetchUserInfo()
+                print("User: \(user.id)")
+                let list = try await supabase.fetchFriends(of: user.id)
+                print("Friends list: \(list)")
+            }
+            catch {
+                print("Error fetching friends list -- \(error)")
+            }
+        }
+    }
 }
 
 #Preview(traits: .defaultLayout, body: {
