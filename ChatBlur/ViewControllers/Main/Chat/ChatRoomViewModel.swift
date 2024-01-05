@@ -1,5 +1,5 @@
 //
-//  ChatListViewModel.swift
+//  ChatRoomViewModel.swift
 //  ChatBlur
 //
 //  Created by HappyDuck on 1/5/24.
@@ -9,7 +9,7 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-final class ChatListViewModel: ViewModelType {
+final class ChatRoomViewModel: ViewModelType {
     
     private let supabaseManager: SupabaseManager = SupabaseManager.shared
     
