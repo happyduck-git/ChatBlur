@@ -7,6 +7,7 @@
 
 import Foundation
 import Supabase
+import RxCocoa
 
 protocol AuthClient {
     func signupWithEmailAndPassword(email: String, password: String, username: String) async throws
@@ -156,6 +157,55 @@ extension SupabaseManager: Repository {
         return try await self.convertUUIDtoUser(user.id)
     }
     
+}
+
+//MARK: - Set up Realtime
+extension SupabaseManager {
+    func setUpRealtimeListener() -> PublishRelay<Message> {
+        supabase.realtime.connect()
+        
+        let messageRelay = PublishRelay<Message>()
+        
+        var publicSchema: RealtimeChannel?
+        
+        publicSchema = supabase.realtime.channel("public")
+          .on("postgres_changes", filter: ChannelFilter(event: "UPDATE", schema: "public")) {
+              messageRelay.accept($0)
+          }
+
+        publicSchema?.onError { err in
+            print("ERROR -- \(err)")
+        }
+        publicSchema?.onClose { close in
+            print("Closed gracefully")
+        }
+        publicSchema?
+          .subscribe { state, _ in
+            switch state {
+            case .subscribed:
+                print("Channel subscribed")
+            case .closed:
+                print("Channel closed")
+            case .timedOut:
+                print("Channel time out")
+            case .channelError:
+                print("Channel error")
+            }
+          }
+
+        supabase.realtime.connect()
+        supabase.realtime.onOpen {
+            print("Channel socket open")
+        }
+        supabase.realtime.onClose {
+            print("Channel socket closed")
+        }
+        supabase.realtime.onError { error, _ in
+            print("Channel socket error: \(error.localizedDescription)")
+        }
+        
+        return messageRelay
+    }
 }
 
 //MARK: - Private

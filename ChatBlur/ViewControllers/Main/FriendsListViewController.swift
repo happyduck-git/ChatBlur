@@ -65,26 +65,12 @@ final class FriendsListViewController: BaseViewController {
 }
 
 extension FriendsListViewController {
+    
     private func bind(with vm: FriendsListViewModel) {
-        
-        let dataSource = RxTableViewSectionedReloadDataSource<FriendViewSectionData> { datasrouce, table, indexPath, item in
-            guard let cell = table.dequeueReusableCell(withIdentifier: FriendTableViewCell.identifier,
-                                                       for: indexPath) as? FriendTableViewCell else {
-                return UITableViewCell()
-            }
-            print("**Item: \(item)")
-            cell.configure(with: item)
-            
-            return cell
-        }
-        
-        dataSource.titleForHeaderInSection = { dataSource, index in
-            return dataSource.sectionModels[index].header
-        }
         
         let emailTextInput = PublishRelay<String>()
         
-        addBtn.rx.tap
+        self.addBtn.rx.tap
             .subscribe(onNext: { [weak self] _ in
                 guard let `self` = self else { return }
                 self.showAddFriendAlert {
@@ -93,9 +79,15 @@ extension FriendsListViewController {
             })
             .disposed(by: disposeBag)
         
+        self.friendsTableView.rx
+            .setDelegate(self)
+            .disposed(by: disposeBag)
+        
         let input = FriendsListViewModel.Input(addFriendEmail: emailTextInput)
         
         let output = vm.transform(input: input)
+        
+        let dataSource = self.createDataSource()
         
         output.sectionData
             .bind(to: self.friendsTableView.rx.items(dataSource: dataSource))
@@ -106,8 +98,12 @@ extension FriendsListViewController {
             .disposed(by: disposeBag)
         
         output.errorTracker
-            .subscribe(onNext: { [weak self] _ in
-                
+            .subscribe(onNext: { [weak self] err in
+                guard let `self` = self else { return }
+                let action = UIAlertAction(title: ErrorConstants.confirm, style: .cancel)
+                self.showAlert(title: ErrorConstants.errorMsg,
+                               msg: ErrorConstants.errorMsg + "\(err.localizedDescription)",
+                               action1: action)
             })
             .disposed(by: disposeBag)
     }
@@ -149,6 +145,54 @@ extension FriendsListViewController {
     }
 }
 
+extension FriendsListViewController: UITableViewDelegate {
+    
+    /// Create data source for table view.
+    /// - Returns: RxTableViewSectionedReloadDataSource
+    private func createDataSource() -> RxTableViewSectionedReloadDataSource<FriendViewSectionData> {
+        let dataSource = RxTableViewSectionedReloadDataSource<FriendViewSectionData> { datasrouce, table, indexPath, item in
+            guard let cell = table.dequeueReusableCell(withIdentifier: FriendTableViewCell.identifier,
+                                                       for: indexPath) as? FriendTableViewCell else {
+                return UITableViewCell()
+            }
+            #if DEBUG
+            print("**Item: \(item)")
+            #endif
+            
+            cell.configure(with: item)
+            
+            return cell
+        }
+        
+        dataSource.titleForHeaderInSection = { dataSource, index in
+            return dataSource.sectionModels[index].header
+        }
+        return dataSource
+    }
+    
+    func tableView(_ tableView: UITableView,
+                   trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        let goToChat = UIContextualAction(style: .normal, title: FriendsViewConstants.goToChat) { [weak self] _, _, _ in
+            guard let `self` = self else { return }
+            print("Go to Chat triggered.")
+            self.vm.moveToChatTracker.accept(indexPath)
+        }
+        
+        return UISwipeActionsConfiguration(actions: [goToChat])
+    }
+    
+    func tableView(_ tableView: UITableView,
+                   leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let delete = UIContextualAction(style: .destructive, title: FriendsViewConstants.remove) { action, _, completion in
+            //TODO: Delete friend from friends_list
+            print("Delete triggered.")
+        }
+        
+        return UISwipeActionsConfiguration(actions: [delete])
+    }
+}
+
 extension FriendsListViewController {
     private func showAddFriendAlert(action: @escaping (String) -> ()) {
         let alert = UIAlertController(title: FriendsViewConstants.addFriend,
@@ -158,8 +202,7 @@ extension FriendsListViewController {
         alert.textFields?.first?.placeholder = "abcd@email.com"
         
         let action = UIAlertAction(title: FriendsViewConstants.add,
-                                   style: .default) { [weak alert, weak self] _ in
-            guard let `self` = self else { return }
+                                   style: .default) { [weak alert] _ in
             let email = alert?.textFields?[0].text ?? String()
             action(email)
         }

@@ -32,13 +32,18 @@ enum SignupConstants {
     static let invalidEmail = String(localized: "Invalid email format.")
     static let invalidPassword = String(localized: "Password should include letters, numbers, and symbols.")
     static let passwordMissmatch = String(localized: "Password missmatch")
-    static let errorTitle = String(localized: "Error")
-    static let errorMsg = String(localized: "Error occurred. ")
-    static let confirm = String(localized: "Confirm")
 }
 
 enum FriendsViewConstants {
     static let addFriend = String(localized: "Add Friend")
     static let add = String(localized: "Add")
     static let inputEmail = String(localized: "Add a friend with email.")
+    static let goToChat = String(localized: "Talk")
+    static let remove = String(localized: "Remove")
+}
+
+enum ErrorConstants {
+    static let errorTitle = String(localized: "Error")
+    static let errorMsg = String(localized: "Error occurred. ")
+    static let confirm = String(localized: "Confirm")
 }

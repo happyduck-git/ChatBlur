@@ -16,7 +16,7 @@ final class FriendsListViewModel: ViewModelType {
     private let supabaseManager: SupabaseManager = SupabaseManager.shared
     
     private let currentUser: PublishRelay<ChatUser>
-    let alertTracker = PublishRelay<String>()
+    let moveToChatTracker = PublishRelay<IndexPath>()
     
     private let disposeBag = DisposeBag()
     
@@ -39,9 +39,12 @@ final class FriendsListViewModel: ViewModelType {
     func transform(input: Input) -> Output {
         let errorTracker: PublishRelay<Error> = PublishRelay<Error>()
         let friendsList: PublishRelay<[ChatUser]> = PublishRelay<[ChatUser]>()
+        var _userId: UUID?
         
         self.currentUser.subscribe(onNext: { [weak self] user in
             guard let `self` = self else { return }
+            _userId = user.id
+            
             Task {
                 do {
                     friendsList.accept(try await self.fetchFriendsList(user.id))
@@ -82,6 +85,24 @@ final class FriendsListViewModel: ViewModelType {
             }
             .asObservable()
         
+        let updateRelay = self.createRealtimeSubscription()
+        updateRelay.subscribe(onNext: { [weak self] isUpdated in
+            guard let `self` = self,
+                  let userId = _userId else { return }
+            if isUpdated {
+                Task {
+                    do {
+                        friendsList.accept(try await self.fetchFriendsList(userId))
+                    }
+                    catch {
+                        errorTracker.accept(error)
+                    }
+                }
+                
+            }
+        })
+        .disposed(by: disposeBag)
+        
         return Output(sectionData: sectionData,
                       addFriendRelay: friendAdded,
                       errorTracker: errorTracker)
@@ -96,6 +117,42 @@ extension FriendsListViewModel {
     
     private func fetchFriendsList(_ id: UUID) async throws -> [ChatUser] {
         return try await supabaseManager.fetchFriends(of: id)
+    }
+}
+
+//MARK: - Set up realtime listener
+extension FriendsListViewModel {
+    func createRealtimeSubscription() -> PublishRelay<Bool> {
+        let updateTracker = PublishRelay<Bool>()
+        Task {
+            let messageRelay = await self.supabaseManager.setUpRealtimeListener()
+            messageRelay.subscribe(onNext: { message in
+                
+                #if DEBUG
+                print(self.convertMessageToFriendsList(message))
+                #endif
+                
+                updateTracker.accept(true)
+            })
+            .disposed(by: disposeBag)
+        }
+        return updateTracker
+    }
+    
+    private func convertMessageToFriendsList(_ message: Message) -> [UUID] {
+        let payload = message.payload
+        guard let dataDic = payload["data"] as? Dictionary<String, Any>,
+              let record = dataDic["record"] as? Dictionary<String, Any>,
+              let friendsList = record["friends_list"] as? NSArray else {
+            return []
+        }
+ 
+        let array = friendsList as? [String]
+        let uuids = array?.compactMap({
+            UUID(uuidString: $0)
+        })
+       
+        return uuids ?? []
     }
 }
 

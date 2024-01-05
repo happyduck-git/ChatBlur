@@ -230,9 +230,9 @@ extension SignupViewController {
                 
                 DispatchQueue.main.async {
                     self.loadingVC.removeViewController()
-                    self.showAlert(title: SignupConstants.errorTitle,
-                                   msg: SignupConstants.errorMsg + "\(error.localizedDescription)",
-                                   action1: UIAlertAction(title: SignupConstants.confirm, style: .cancel))
+                    self.showAlert(title: ErrorConstants.errorTitle,
+                                   msg: ErrorConstants.errorMsg + "\(error.localizedDescription)",
+                                   action1: UIAlertAction(title: ErrorConstants.confirm, style: .cancel))
                 }
                 
             }).disposed(by: disposeBag)
