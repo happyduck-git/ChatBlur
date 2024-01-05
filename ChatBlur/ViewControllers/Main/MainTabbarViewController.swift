@@ -6,27 +6,14 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 final class MainTabbarViewController: UITabBarController {
 
-    enum Item: String, CaseIterable {
-        case friends = "Friends"
-        case chat = "Chat"
-        case settings = "Settings"
-        
-        var image: String {
-            switch self {
-            case .friends:
-                return "person.3.fill"
-            case .chat:
-                return "text.bubble.fill"
-            case .settings:
-                return "gearshape.fill"
-            }
-        }
-    }
-
     private let vm: TabbarViewModel
+    
+    private let disposeBag = DisposeBag()
     
     //MARK: - Init
     init(vm: TabbarViewModel) {
@@ -61,16 +48,19 @@ extension MainTabbarViewController {
         var vc: UIViewController?
         var vcs: [UINavigationController] = []
         
+        let output = self.vm.transform(input: TabbarViewModel.Input())
+        
         for tabbar in tabbars {
             title = tabbar.rawValue
             image = UIImage(systemName: tabbar.image)
             
             switch tabbar {
             case .friends:
-                let vm = FriendsListViewModel(session: self.vm.session)
+                let vm = FriendsListViewModel(currentUser: output.currentUser)
                 vc = FriendsListViewController(vm: vm)
             case .chat:
-                vc = ChatListViewController()
+                let vm = ChatListViewModel(currentUser: output.currentUser)
+                vc = ChatListViewController(vm: vm)
             case .settings:
                 vc = SettingsViewController()
             }
@@ -93,5 +83,24 @@ extension MainTabbarViewController {
         nav.tabBarItem.image = image
         nav.viewControllers.first?.navigationItem.title = title
         return nav
+    }
+}
+
+extension MainTabbarViewController {
+    enum Item: String, CaseIterable {
+        case friends = "Friends"
+        case chat = "Chat"
+        case settings = "Settings"
+        
+        var image: String {
+            switch self {
+            case .friends:
+                return "person.3.fill"
+            case .chat:
+                return "text.bubble.fill"
+            case .settings:
+                return "gearshape.fill"
+            }
+        }
     }
 }

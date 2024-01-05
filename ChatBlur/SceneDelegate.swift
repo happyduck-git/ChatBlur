@@ -18,22 +18,31 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
         
-//        Task {
-//            do {
-//                let user = try await supabaseManager.checkSession()
-//                print("\(#function) Session: " + (user.email ?? ""))
-//            }
-//            catch {
-//                
-//            }
-//        }
-//        
-//        let vm = LoginViewModel()
-//        let vc = LoginViewController(vm: vm)
+
         
-        let vc = ChatListViewController()
-        window?.rootViewController = UINavigationController(rootViewController: vc)
-        window?.makeKeyAndVisible()
+        Task {
+            do {
+                let session = try await supabaseManager.checkSession()
+                let vm = TabbarViewModel(session: session)
+                let vc = MainTabbarViewController(vm: vm)
+                DispatchQueue.main.async { [weak self] in
+                    guard let `self` = self else { return }
+                    self.window?.rootViewController = UINavigationController(rootViewController: vc)
+                    self.window?.makeKeyAndVisible()
+                }
+            }
+            catch {
+                let vm = LoginViewModel()
+                let vc = LoginViewController(vm: vm)
+                DispatchQueue.main.async { [weak self] in
+                    guard let `self` = self else { return }
+                    self.window?.rootViewController = UINavigationController(rootViewController: vc)
+                    self.window?.makeKeyAndVisible()
+                }
+            }
+        }
+        
+      
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

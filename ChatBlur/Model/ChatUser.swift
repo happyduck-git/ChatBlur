@@ -28,3 +28,11 @@ struct ChatUser: Codable {
         case avatarUrl = "avatar_url"
     }
 }
+
+struct FriendsList: Codable {
+    let friendsList: [UUID]
+    
+    enum CodingKeys: String, CodingKey {
+        case friendsList = "friends_list"
+    }
+}

@@ -13,9 +13,11 @@ final class ChatListViewController: UIViewController {
     // TEMP
     private var testChatData: [String] = []
     
-    private var keyboardHeight: CGFloat = 0  // Add a property to keep track of keyboard height
+    private let vm: ChatListViewModel
     
     //MARK: - UI Elements
+    private var keyboardHeight: CGFloat = 0
+    
     private let baseContainer: UIView = {
         let view = UIView()
         view.backgroundColor = .systemBlue
@@ -44,6 +46,17 @@ final class ChatListViewController: UIViewController {
         return textField
     }()
     
+    init(vm: ChatListViewModel) {
+        self.vm = vm
+        super.init(nibName: nil, bundle: nil)
+        
+        self.bind(with: self.vm)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,8 +73,7 @@ final class ChatListViewController: UIViewController {
         self.setNotification()
         
 //        self.demoSaveFriend()
-        self.demo_fetchFriendsList()
-        
+//        self.demo_fetchFriendsList()
     }
 
     override func viewDidLayoutSubviews() {
@@ -69,6 +81,12 @@ final class ChatListViewController: UIViewController {
         setFlexContainer()
     }
     
+}
+
+extension ChatListViewController {
+    private func bind(with vm: ChatListViewModel) {
+        let _ = vm.transform(input: ChatListViewModel.Input())
+    }
 }
 
 extension ChatListViewController {
@@ -194,23 +212,24 @@ extension ChatListViewController {
 //        
 //    }
     
-    private func demo_fetchFriendsList() {
-        let supabase = SupabaseManager.shared
-        
-        Task {
-            do {
-                let user = try await supabase.fetchUserInfo()
-                print("User: \(user.id)")
-                let list = try await supabase.fetchFriends(of: user.id)
-                print("Friends list: \(list)")
-            }
-            catch {
-                print("Error fetching friends list -- \(error)")
-            }
-        }
-    }
+//    private func demo_fetchFriendsList() {
+//        let supabase = SupabaseManager.shared
+//        
+//        Task {
+//            do {
+//                let user = try await supabase.fetchUserInfo()
+//                print("User: \(user.id)")
+//                let list = try await supabase.fetchFriends(of: user.id)
+//                print("Friends list: \(list)")
+//            }
+//            catch {
+//                print("Error fetching friends list -- \(error)")
+//            }
+//        }
+//    }
 }
 
-#Preview(traits: .defaultLayout, body: {
-    ChatListViewController()
-})
+//@available(iOS 17, *)
+//#Preview(traits: .defaultLayout, body: {
+//    ChatListViewController(vm: <#T##ChatListViewModel#>)
+//})

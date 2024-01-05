@@ -62,6 +62,10 @@
 		24B6F1D42B3C780600D7554F /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 24B6F1D32B3C780600D7554F /* RxCocoa */; };
 		24B6F1D92B3C780600D7554F /* RxRelay in Frameworks */ = {isa = PBXBuildFile; productRef = 24B6F1D82B3C780600D7554F /* RxRelay */; };
 		24B6F1DE2B3C780600D7554F /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 24B6F1DD2B3C780600D7554F /* RxSwift */; };
+		24E9EECC2B46D31200008FB4 /* FriendTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24E9EECB2B46D31200008FB4 /* FriendTableViewCell.swift */; };
+		24E9EECF2B46DADC00008FB4 /* Nuke in Frameworks */ = {isa = PBXBuildFile; productRef = 24E9EECE2B46DADC00008FB4 /* Nuke */; };
+		24E9EED22B46E4A600008FB4 /* RxDataSources in Frameworks */ = {isa = PBXBuildFile; productRef = 24E9EED12B46E4A600008FB4 /* RxDataSources */; };
+		24E9EED62B47C32000008FB4 /* ChatListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24E9EED52B47C32000008FB4 /* ChatListViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -142,6 +146,8 @@
 		24B6F1AE2B3C56FF00D7554F /* ChatBlurUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChatBlurUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		24B6F1B22B3C56FF00D7554F /* ChatBlurUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBlurUITests.swift; sourceTree = "<group>"; };
 		24B6F1B42B3C56FF00D7554F /* ChatBlurUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBlurUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		24E9EECB2B46D31200008FB4 /* FriendTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendTableViewCell.swift; sourceTree = "<group>"; };
+		24E9EED52B47C32000008FB4 /* ChatListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatListViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -154,10 +160,12 @@
 				24B6F1C32B3C697100D7554F /* Alamofire in Frameworks */,
 				24B6F1C92B3C780600D7554F /* FlexLayout in Frameworks */,
 				24316A4D2B3FBF2300455DEC /* Storage in Frameworks */,
+				24E9EED22B46E4A600008FB4 /* RxDataSources in Frameworks */,
 				24B6F1CD2B3C780600D7554F /* FlexLayoutYogaKit in Frameworks */,
 				24B6F1D42B3C780600D7554F /* RxCocoa in Frameworks */,
 				24316A492B3FBF2300455DEC /* Auth in Frameworks */,
 				24316A4B2B3FBF2300455DEC /* Realtime in Frameworks */,
+				24E9EECF2B46DADC00008FB4 /* Nuke in Frameworks */,
 				24B6F1CB2B3C780600D7554F /* FlexLayoutYoga in Frameworks */,
 				24316A4F2B3FBF2300455DEC /* Supabase in Frameworks */,
 				24B6F1CF2B3C780600D7554F /* RxBlocking in Frameworks */,
@@ -264,6 +272,7 @@
 				24316ADA2B42B2CD00455DEC /* SettingsViewController.swift */,
 				24316ADC2B42BB8B00455DEC /* TabbarViewModel.swift */,
 				24316ADE2B42C58800455DEC /* FriendsListViewModel.swift */,
+				24E9EED52B47C32000008FB4 /* ChatListViewModel.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -280,6 +289,7 @@
 			isa = PBXGroup;
 			children = (
 				24316AE82B4452CA00455DEC /* ChatTextField.swift */,
+				24E9EECB2B46D31200008FB4 /* FriendTableViewCell.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -404,6 +414,8 @@
 				24316A4A2B3FBF2300455DEC /* Realtime */,
 				24316A4C2B3FBF2300455DEC /* Storage */,
 				24316A4E2B3FBF2300455DEC /* Supabase */,
+				24E9EECE2B46DADC00008FB4 /* Nuke */,
+				24E9EED12B46E4A600008FB4 /* RxDataSources */,
 			);
 			productName = ChatBlur;
 			productReference = 24B6F18E2B3C56FC00D7554F /* ChatBlur.app */;
@@ -497,6 +509,8 @@
 				24316A2A2B3D8AED00455DEC /* XCRemoteSwiftPackageReference "UIKitBooster" */,
 				24316A332B3DA20400455DEC /* XCRemoteSwiftPackageReference "PinLayout" */,
 				24316A472B3FBF0400455DEC /* XCRemoteSwiftPackageReference "supabase-swift" */,
+				24E9EECD2B46DAB800008FB4 /* XCRemoteSwiftPackageReference "Nuke" */,
+				24E9EED02B46E46300008FB4 /* XCRemoteSwiftPackageReference "RxDataSources" */,
 			);
 			productRefGroup = 24B6F18F2B3C56FC00D7554F /* Products */;
 			projectDirPath = "";
@@ -547,6 +561,7 @@
 				24316ACD2B41900700455DEC /* LoadingViewController.swift in Sources */,
 				24316A9C2B3FF1F000455DEC /* SignupViewController.swift in Sources */,
 				24316AD72B42B2AE00455DEC /* FriendsListViewController.swift in Sources */,
+				24E9EECC2B46D31200008FB4 /* FriendTableViewCell.swift in Sources */,
 				24316ADF2B42C58800455DEC /* FriendsListViewModel.swift in Sources */,
 				24316AE42B43BDD500455DEC /* AppleLoginManager.swift in Sources */,
 				24316AA12B40717700455DEC /* SupabaseManager.swift in Sources */,
@@ -554,6 +569,7 @@
 				24316A3E2B3E5FA200455DEC /* LoginViewModel.swift in Sources */,
 				24316AD22B4269DC00455DEC /* ChatUser.swift in Sources */,
 				24316A9E2B4070A100455DEC /* SignupViewModel.swift in Sources */,
+				24E9EED62B47C32000008FB4 /* ChatListViewModel.swift in Sources */,
 				24316ACA2B417B6000455DEC /* UITextField+Extensions.swift in Sources */,
 				24B6F1922B3C56FC00D7554F /* AppDelegate.swift in Sources */,
 				24316AA42B40762D00455DEC /* EnvironmentConfig.swift in Sources */,
@@ -751,7 +767,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -785,7 +801,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -970,6 +986,22 @@
 				minimumVersion = 6.6.0;
 			};
 		};
+		24E9EECD2B46DAB800008FB4 /* XCRemoteSwiftPackageReference "Nuke" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kean/Nuke.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.2.0;
+			};
+		};
+		24E9EED02B46E46300008FB4 /* XCRemoteSwiftPackageReference "RxDataSources" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/RxSwiftCommunity/RxDataSources.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.2;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1092,6 +1124,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 24B6F1C62B3C73C000D7554F /* XCRemoteSwiftPackageReference "RxSwift" */;
 			productName = RxSwift;
+		};
+		24E9EECE2B46DADC00008FB4 /* Nuke */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 24E9EECD2B46DAB800008FB4 /* XCRemoteSwiftPackageReference "Nuke" */;
+			productName = Nuke;
+		};
+		24E9EED12B46E4A600008FB4 /* RxDataSources */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 24E9EED02B46E46300008FB4 /* XCRemoteSwiftPackageReference "RxDataSources" */;
+			productName = RxDataSources;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -9,35 +9,51 @@ import Foundation
 import Supabase
 import RxSwift
 import RxCocoa
+import RxDataSources
 
 final class FriendsListViewModel: ViewModelType {
     
     private let supabaseManager: SupabaseManager = SupabaseManager.shared
     
-    private let session: Session
+    private let currentUser: PublishRelay<ChatUser>
+    
+    private let disposeBag = DisposeBag()
     
     //MARK: - Init
-    init(session: Session) {
-        self.session = session
-        print("\(session.user)")
+    init(currentUser: PublishRelay<ChatUser>) {
+        self.currentUser = currentUser
     }
     
     //MARK: - View Model Data
     struct Input {
-        let viewDidLoad: Driver<Void>
+       
     }
     
     struct Output {
-        
+//        let sectionData: PublishRelay<[SectionData]>
     }
     
     func transform(input: Input) -> Output {
-        input.viewDidLoad.map { [weak self] _ in
-            //TODO: Call to fetch friends list
-            
-        }
         
+        let sections: [Section] = Section.allCases
+        var sectionData: [SectionData] = []
+        
+        // first section
+        self.currentUser.subscribe(onNext: {
+            print("User information: \($0.username)")
+        })
+        .disposed(by: disposeBag)
+        
+        // second section
+
+        
+        for section in sections {
+            sectionData.append(SectionData(header: section.rawValue,
+                                           items: []))
+        }
+       
         return Output()
+//        return Output(sectionData: <#PublishRelay<[FriendsListViewModel.SectionData]>#>)
     }
 }
 
@@ -49,5 +65,26 @@ extension FriendsListViewModel {
     
     private func fetchFriendsList() async throws {
         
+    }
+}
+
+extension FriendsListViewModel {
+    enum Section: String, CaseIterable {
+        case me
+        case friends
+    }
+}
+
+struct SectionData {
+    let header: String
+    var items: [Item]
+}
+
+extension SectionData: SectionModelType {
+    typealias Item = ChatUser
+    
+    init(original: SectionData, items: [ChatUser]) {
+        self = original
+        self.items = items
     }
 }

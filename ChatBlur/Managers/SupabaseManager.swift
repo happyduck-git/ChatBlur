@@ -16,6 +16,7 @@ protocol AuthClient {
 protocol Repository {
     func saveUser(_ uid: UUID, user: ChatUser) async throws
     func saveFriend(with email: String) async throws
+    func fetchFriends(of id: UUID) async throws -> [ChatUser]
 }
 
 final actor SupabaseManager {
@@ -87,8 +88,8 @@ extension SupabaseManager: AuthClient {
     
     /// Check if session is valid
     /// - Returns: User
-    func checkSession() async throws -> User {
-        return try await supabase.auth.user()
+    func checkSession() async throws -> Session {
+        return try await supabase.auth.session
     }
 }
 
@@ -129,17 +130,66 @@ extension SupabaseManager: Repository {
         return result.first
     }
     
-    func fetchFriends(of id: UUID) async throws -> Any {
-        let result: Any = try await supabase.database
+    func fetchFriends(of id: UUID) async throws -> [ChatUser] {
+        let friendsList = try await self._fetchFriends(of: id)
+        
+        return try await withThrowingTaskGroup(of: ChatUser.self) { [weak self] group in
+            guard let `self` = self else { return [] }
+            for friend in friendsList.friendsList {
+                group.addTask {
+                    try await self.convertUUIDtoUser(friend)
+                }
+            }
+            
+            var users: [ChatUser] = []
+            for try await result in group {
+                users.append(result)
+            }
+            
+            return users.sorted { $0.username < $1.username }
+        }
+        
+    }
+
+    func fetchCurrentUserInfo() async throws -> ChatUser {
+        let user = try await self._fetchCurrentUserInfo()
+        return try await self.convertUUIDtoUser(user.id)
+    }
+    
+}
+
+//MARK: - Private
+extension SupabaseManager {
+    
+    private func _fetchCurrentUserInfo() async throws -> User {
+        return try await supabase.auth.user()
+    }
+    
+    private func _fetchFriends(of id: UUID) async throws -> FriendsList {
+        let result: [FriendsList] = try await supabase.database
             .from(Profiles.profiles.rawValue)
             .select(Profiles.friendsList.rawValue)
             .eq(Profiles.id.rawValue, value: id)
             .execute()
             .value
-        return result
+        
+        return result.first ?? FriendsList(friendsList: [])
     }
     
-    func fetchUserInfo() async throws -> User {
-        return try await supabase.auth.user()
+    private func convertUUIDtoUser(_ uuid: UUID) async throws -> ChatUser {
+        let result: [ChatUser] = try await supabase.database
+            .from(Profiles.profiles.rawValue)
+            .select()
+            .eq(Profiles.id.rawValue, value: uuid)
+            .execute()
+            .value
+        
+        guard let user = result.first else { throw SupabaseError.userNotFound }
+        
+        return user
     }
+}
+
+enum SupabaseError: Error {
+    case userNotFound
 }
