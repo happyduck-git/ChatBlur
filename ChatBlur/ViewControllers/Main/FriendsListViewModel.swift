@@ -16,6 +16,7 @@ final class FriendsListViewModel: ViewModelType {
     private let supabaseManager: SupabaseManager = SupabaseManager.shared
     
     private let currentUser: PublishRelay<ChatUser>
+    let alertTracker = PublishRelay<String>()
     
     private let disposeBag = DisposeBag()
     
@@ -26,34 +27,64 @@ final class FriendsListViewModel: ViewModelType {
     
     //MARK: - View Model Data
     struct Input {
-       
+        let addFriendEmail: PublishRelay<String>
     }
     
     struct Output {
-//        let sectionData: PublishRelay<[SectionData]>
+        let sectionData: Observable<[FriendViewSectionData]>
+        let addFriendRelay: Observable<Void>
+        let errorTracker: PublishRelay<Error>
     }
     
     func transform(input: Input) -> Output {
+        let errorTracker: PublishRelay<Error> = PublishRelay<Error>()
+        let friendsList: PublishRelay<[ChatUser]> = PublishRelay<[ChatUser]>()
         
-        let sections: [Section] = Section.allCases
-        var sectionData: [SectionData] = []
-        
-        // first section
-        self.currentUser.subscribe(onNext: {
-            print("User information: \($0.username)")
+        self.currentUser.subscribe(onNext: { [weak self] user in
+            guard let `self` = self else { return }
+            Task {
+                do {
+                    friendsList.accept(try await self.fetchFriendsList(user.id))
+                }
+                catch {
+                    errorTracker.accept(error)
+                }
+            }
         })
         .disposed(by: disposeBag)
         
-        // second section
-
-        
-        for section in sections {
-            sectionData.append(SectionData(header: section.rawValue,
-                                           items: []))
+        let sectionData = PublishRelay.combineLatest(self.currentUser, friendsList).map { currentUser, friendsList in
+            var data: [FriendViewSectionData] = []
+            // first section
+            data.append(FriendViewSectionData(header: String(localized: "Me"),
+                                    items: [currentUser]))
+            
+            // second section
+            data.append(FriendViewSectionData(header: String(localized: "Friends"),
+                                    items: friendsList))
+            
+            return data
         }
-       
-        return Output()
-//        return Output(sectionData: <#PublishRelay<[FriendsListViewModel.SectionData]>#>)
+        .asObservable()
+        
+        // Add friend to friends list in data base.
+        let friendAdded = input.addFriendEmail
+            .map { [weak self] email in
+                guard let `self` = self else { return }
+                Task {
+                    do {
+                        try await self.addFriendsToList(email)
+                    }
+                    catch {
+                        errorTracker.accept(error)
+                    }
+                }
+            }
+            .asObservable()
+        
+        return Output(sectionData: sectionData,
+                      addFriendRelay: friendAdded,
+                      errorTracker: errorTracker)
     }
 }
 
@@ -63,8 +94,8 @@ extension FriendsListViewModel {
         try await supabaseManager.saveFriend(with: email)
     }
     
-    private func fetchFriendsList() async throws {
-        
+    private func fetchFriendsList(_ id: UUID) async throws -> [ChatUser] {
+        return try await supabaseManager.fetchFriends(of: id)
     }
 }
 
@@ -75,15 +106,15 @@ extension FriendsListViewModel {
     }
 }
 
-struct SectionData {
+struct FriendViewSectionData {
     let header: String
     var items: [Item]
 }
 
-extension SectionData: SectionModelType {
+extension FriendViewSectionData: SectionModelType {
     typealias Item = ChatUser
     
-    init(original: SectionData, items: [ChatUser]) {
+    init(original: FriendViewSectionData, items: [ChatUser]) {
         self = original
         self.items = items
     }

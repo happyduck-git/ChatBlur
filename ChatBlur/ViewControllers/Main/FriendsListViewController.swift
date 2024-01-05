@@ -6,17 +6,30 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
+import RxDataSources
 
 final class FriendsListViewController: BaseViewController {
 
     //MARK: - View Model
     private let vm: FriendsListViewModel
     
+    private let disposeBag = DisposeBag()
+    
     //MARK: - UI Elements
+    private let flexContainer: UIView = {
+        let view = UIView()
+        return view
+    }()
+    
+    private let addBtn = UIBarButtonItem(systemItem: .add)
+    
     private let friendsTableView: UITableView = {
         let table = UITableView()
         table.register(FriendTableViewCell.self,
                        forCellReuseIdentifier: FriendTableViewCell.identifier)
+        table.translatesAutoresizingMaskIntoConstraints = false
         return table
     }()
     
@@ -37,54 +50,125 @@ final class FriendsListViewController: BaseViewController {
         super.viewDidLoad()
         self.view.backgroundColor = .background
         
-        self.setupDelegate()
+        self.setUI()
+        self.setLayout()
+        
+        self.setNavigationItems()
     }
 
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        self.setFlexContainer()
+        
+        
+    }
 }
 
 extension FriendsListViewController {
     private func bind(with vm: FriendsListViewModel) {
-        let _ = vm.transform(input: FriendsListViewModel.Input())
         
+        let dataSource = RxTableViewSectionedReloadDataSource<FriendViewSectionData> { datasrouce, table, indexPath, item in
+            guard let cell = table.dequeueReusableCell(withIdentifier: FriendTableViewCell.identifier,
+                                                       for: indexPath) as? FriendTableViewCell else {
+                return UITableViewCell()
+            }
+            print("**Item: \(item)")
+            cell.configure(with: item)
+            
+            return cell
+        }
+        
+        dataSource.titleForHeaderInSection = { dataSource, index in
+            return dataSource.sectionModels[index].header
+        }
+        
+        let emailTextInput = PublishRelay<String>()
+        
+        addBtn.rx.tap
+            .subscribe(onNext: { [weak self] _ in
+                guard let `self` = self else { return }
+                self.showAddFriendAlert {
+                    emailTextInput.accept($0)
+                }
+            })
+            .disposed(by: disposeBag)
+        
+        let input = FriendsListViewModel.Input(addFriendEmail: emailTextInput)
+        
+        let output = vm.transform(input: input)
+        
+        output.sectionData
+            .bind(to: self.friendsTableView.rx.items(dataSource: dataSource))
+            .disposed(by: disposeBag)
+        
+        output.addFriendRelay
+            .subscribe()
+            .disposed(by: disposeBag)
+        
+        output.errorTracker
+            .subscribe(onNext: { [weak self] _ in
+                
+            })
+            .disposed(by: disposeBag)
     }
 }
 
 extension FriendsListViewController {
-    private func setupDelegate() {
-        friendsTableView.delegate = self
-        friendsTableView.dataSource = self
+    
+    private func setNavigationItems() {
+        self.navigationItem.rightBarButtonItem = self.addBtn
+    }
+    
+    private func setUI() {
+//        self.view.addSubview(self.flexContainer)
+        self.view.addSubview(self.friendsTableView)
+        
+        NSLayoutConstraint.activate([
+            self.friendsTableView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+            self.friendsTableView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
+            self.friendsTableView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
+            self.friendsTableView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
+        ])
+    }
+    
+    private func setFlexContainer() {
+//        self.flexContainer.pin
+//            .all(self.view.pin.safeArea)
+//        self.friendsTableView.pin
+//            .all(self.flexContainer.pin.safeArea)
+//        self.flexContainer.flex.layout()
+    }
+    
+    private func setLayout() {
+//        self.flexContainer.flex
+//            .direction(.column)
+//            .define { flex in
+//                flex.addItem(self.friendsTableView)
+//                
+//            }
     }
 }
 
-extension FriendsListViewController: UITableViewDelegate, UITableViewDataSource {
-    enum Section: String, CaseIterable {
-        case me
-        case friends
-    }
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return Section.allCases.count
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: FriendTableViewCell.identifier,
-                                                       for: indexPath) as? FriendTableViewCell else {
-            return UITableViewCell()
+extension FriendsListViewController {
+    private func showAddFriendAlert(action: @escaping (String) -> ()) {
+        let alert = UIAlertController(title: FriendsViewConstants.addFriend,
+                                      message: FriendsViewConstants.inputEmail,
+                                      preferredStyle: .alert)
+        alert.addTextField()
+        alert.textFields?.first?.placeholder = "abcd@email.com"
+        
+        let action = UIAlertAction(title: FriendsViewConstants.add,
+                                   style: .default) { [weak alert, weak self] _ in
+            guard let `self` = self else { return }
+            let email = alert?.textFields?[0].text ?? String()
+            action(email)
         }
-        
-        var user: ChatUser?
-        
-//        switch indexPath.section {
-//        case 0:
-//            
-//        default:
-//            
-//        }
-//        cell.configure(with: <#T##ChatUser#>)
-        return cell
+        alert.addAction(action)
+        DispatchQueue.main.async { [weak self] in
+            guard let `self` = self else { return }
+            self.present(alert, animated: true)
+        }
     }
+    
+    
 }

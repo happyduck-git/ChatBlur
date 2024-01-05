@@ -37,4 +37,8 @@ enum SignupConstants {
     static let confirm = String(localized: "Confirm")
 }
 
-
+enum FriendsViewConstants {
+    static let addFriend = String(localized: "Add Friend")
+    static let add = String(localized: "Add")
+    static let inputEmail = String(localized: "Add a friend with email.")
+}

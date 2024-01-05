@@ -42,7 +42,7 @@ final class FriendTableViewCell: UITableViewCell {
         contentView.flex
             .direction(.row)
             .alignItems(.center)
-            .padding(10, 30, 10)
+            .padding(10, 20, 10)
             .define { flex in
                 flex.addItem(profileImageView)
                     .width(50)
