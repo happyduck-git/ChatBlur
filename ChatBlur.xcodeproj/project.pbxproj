@@ -68,6 +68,7 @@
 		24E9EED62B47C32000008FB4 /* ChatRoomViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24E9EED52B47C32000008FB4 /* ChatRoomViewModel.swift */; };
 		24E9EED92B483F9500008FB4 /* ChatListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24E9EED82B483F9500008FB4 /* ChatListViewController.swift */; };
 		24E9EEDB2B483FB600008FB4 /* ChatListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24E9EEDA2B483FB600008FB4 /* ChatListViewModel.swift */; };
+		24E9EEDD2B48EED200008FB4 /* ChatMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24E9EEDC2B48EED200008FB4 /* ChatMessage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -152,6 +153,7 @@
 		24E9EED52B47C32000008FB4 /* ChatRoomViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomViewModel.swift; sourceTree = "<group>"; };
 		24E9EED82B483F9500008FB4 /* ChatListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatListViewController.swift; sourceTree = "<group>"; };
 		24E9EEDA2B483FB600008FB4 /* ChatListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatListViewModel.swift; sourceTree = "<group>"; };
+		24E9EEDC2B48EED200008FB4 /* ChatMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -263,6 +265,7 @@
 			isa = PBXGroup;
 			children = (
 				24316AD12B4269DC00455DEC /* ChatUser.swift */,
+				24E9EEDC2B48EED200008FB4 /* ChatMessage.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -571,6 +574,7 @@
 				24316ADD2B42BB8C00455DEC /* TabbarViewModel.swift in Sources */,
 				24B6F1962B3C56FC00D7554F /* LoginViewController.swift in Sources */,
 				24316A432B3E826800455DEC /* ASAuthorizationAppleIDButton.swift in Sources */,
+				24E9EEDD2B48EED200008FB4 /* ChatMessage.swift in Sources */,
 				24316ADB2B42B2CD00455DEC /* SettingsViewController.swift in Sources */,
 				24316ACD2B41900700455DEC /* LoadingViewController.swift in Sources */,
 				24316A9C2B3FF1F000455DEC /* SignupViewController.swift in Sources */,

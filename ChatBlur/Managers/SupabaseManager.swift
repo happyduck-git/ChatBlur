@@ -28,6 +28,9 @@ final actor SupabaseManager {
         case insertFriend = "insert_friend"
         case profileId = "profile_id"
         case friendName = "friend_name"
+        case fetchMessages = "fetch_messages"
+        case sender = "_sender"
+        case receiver = "_receiver"
     }
     
     enum Profiles: String {
@@ -94,6 +97,7 @@ extension SupabaseManager: AuthClient {
     }
 }
 
+//MARK: - Users
 extension SupabaseManager: Repository {
     func saveUser(_ uid: UUID, user: ChatUser) async throws {
         try await supabase.database
@@ -113,10 +117,13 @@ extension SupabaseManager: Repository {
         }
         
         try await supabase.database
-            .rpc(SupabaseFunction.insertFriend.rawValue, params: [
-                SupabaseFunction.profileId.rawValue: "\(user.id)",
-                SupabaseFunction.friendName.rawValue: "\(friend.id)"
-            ])
+            .rpc(
+                SupabaseFunction.insertFriend.rawValue,
+                params: [
+                    SupabaseFunction.profileId.rawValue: "\(user.id)",
+                    SupabaseFunction.friendName.rawValue: "\(friend.id)"
+                ]
+            )
             .execute()
     }
     
@@ -157,6 +164,24 @@ extension SupabaseManager: Repository {
         return try await self.convertUUIDtoUser(user.id)
     }
     
+}
+
+//MARK: - Messages
+extension SupabaseManager {
+    func fetchMessages(from sender: UUID, to recepient: UUID) async throws -> [ChatMessage] {
+        let messages: [ChatMessage] = try await supabase.database
+            .rpc(
+                SupabaseFunction.fetchMessages.rawValue,
+                params: [
+                    SupabaseFunction.sender.rawValue: "\(sender)",
+                    SupabaseFunction.receiver.rawValue: "\(recepient)"
+                ]
+            )
+            .execute()
+            .value
+        
+        return messages
+    }
 }
 
 //MARK: - Set up Realtime

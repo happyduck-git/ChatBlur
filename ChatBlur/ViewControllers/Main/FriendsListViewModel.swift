@@ -41,6 +41,7 @@ final class FriendsListViewModel: ViewModelType {
         let friendsList: PublishRelay<[ChatUser]> = PublishRelay<[ChatUser]>()
         var _userId: UUID?
         
+        // Subscribe current user info
         self.currentUser.subscribe(onNext: { [weak self] user in
             guard let `self` = self else { return }
             _userId = user.id
@@ -55,6 +56,15 @@ final class FriendsListViewModel: ViewModelType {
             }
         })
         .disposed(by: disposeBag)
+        
+        // Subscribe to selected table view indexPath
+        self.moveToChatTracker
+            .subscribe(onNext: {
+                print("Selected index: \($0)")
+                
+                
+            })
+            .disposed(by: disposeBag)
         
         let sectionData = PublishRelay.combineLatest(self.currentUser, friendsList).map { currentUser, friendsList in
             var data: [FriendViewSectionData] = []

@@ -172,10 +172,10 @@ extension FriendsListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView,
                    trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        if indexPath.section == 0 { return nil }
         
         let goToChat = UIContextualAction(style: .normal, title: FriendsViewConstants.goToChat) { [weak self] _, _, _ in
             guard let `self` = self else { return }
-            print("Go to Chat triggered.")
             self.vm.moveToChatTracker.accept(indexPath)
         }
         
@@ -184,6 +184,8 @@ extension FriendsListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView,
                    leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        if indexPath.section == 0 { return nil }
+        
         let delete = UIContextualAction(style: .destructive, title: FriendsViewConstants.remove) { action, _, completion in
             //TODO: Delete friend from friends_list
             print("Delete triggered.")
