@@ -129,32 +129,23 @@ extension FriendsListViewController {
     }
     
     private func setUI() {
-//        self.view.addSubview(self.flexContainer)
-        self.view.addSubview(self.friendsTableView)
-        
-        NSLayoutConstraint.activate([
-            self.friendsTableView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
-            self.friendsTableView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
-            self.friendsTableView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
-            self.friendsTableView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
-        ])
+        self.view.addSubview(self.flexContainer)
     }
     
     private func setFlexContainer() {
-//        self.flexContainer.pin
-//            .all(self.view.pin.safeArea)
-//        self.friendsTableView.pin
-//            .all(self.flexContainer.pin.safeArea)
-//        self.flexContainer.flex.layout()
+        self.flexContainer.pin
+            .all(self.view.pin.safeArea)
+
+        self.flexContainer.flex.layout()
     }
     
     private func setLayout() {
-//        self.flexContainer.flex
-//            .direction(.column)
-//            .define { flex in
-//                flex.addItem(self.friendsTableView)
-//                
-//            }
+        self.flexContainer.flex
+            .direction(.column)
+            .define { flex in
+                flex.addItem(self.friendsTableView)
+                    .grow(1)
+            }
     }
 }
 
