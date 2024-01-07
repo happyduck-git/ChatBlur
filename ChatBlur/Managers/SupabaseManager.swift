@@ -95,6 +95,10 @@ extension SupabaseManager: AuthClient {
             )
     }
     
+    func signOut() async throws {
+        try await supabase.auth.signOut()
+    }
+    
     /// Check if session is valid
     /// - Returns: User
     func checkSession() async throws -> Session {

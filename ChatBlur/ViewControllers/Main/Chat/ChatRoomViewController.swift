@@ -34,7 +34,7 @@ final class ChatRoomViewController: UIViewController {
     
     private let chatTableView: UITableView = {
         let table = UITableView()
-        table.backgroundColor = .systemOrange
+        table.backgroundColor = .background
         table.register(MeTableViewCell.self,
                        forCellReuseIdentifier: MeTableViewCell.identifier)
         table.register(YouTableViewCell.self,
