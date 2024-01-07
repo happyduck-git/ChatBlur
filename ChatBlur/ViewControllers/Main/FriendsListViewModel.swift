@@ -33,12 +33,15 @@ final class FriendsListViewModel: ViewModelType {
     struct Output {
         let sectionData: Observable<[FriendViewSectionData]>
         let addFriendRelay: Observable<Void>
+        let chatRoomTrigger: PublishRelay<ChatUser>
         let errorTracker: PublishRelay<Error>
     }
     
     func transform(input: Input) -> Output {
         let errorTracker: PublishRelay<Error> = PublishRelay<Error>()
+        let chatRoomTrigger: PublishRelay<ChatUser> = PublishRelay<ChatUser>()
         let friendsList: PublishRelay<[ChatUser]> = PublishRelay<[ChatUser]>()
+        var latestFriendsList: [ChatUser] = []
         var _userId: UUID?
         
         // Subscribe current user info
@@ -60,12 +63,11 @@ final class FriendsListViewModel: ViewModelType {
         // Subscribe to selected table view indexPath
         self.moveToChatTracker
             .subscribe(onNext: {
-                print("Selected index: \($0)")
-                
-                
+                chatRoomTrigger.accept(latestFriendsList[$0.row])
             })
             .disposed(by: disposeBag)
         
+        // Tableview data source relay
         let sectionData = PublishRelay.combineLatest(self.currentUser, friendsList).map { currentUser, friendsList in
             var data: [FriendViewSectionData] = []
             // first section
@@ -113,8 +115,16 @@ final class FriendsListViewModel: ViewModelType {
         })
         .disposed(by: disposeBag)
         
+        // Subscribe to friendsList
+        friendsList
+            .subscribe(onNext: {
+                latestFriendsList = $0
+            })
+            .disposed(by: disposeBag)
+        
         return Output(sectionData: sectionData,
                       addFriendRelay: friendAdded,
+                      chatRoomTrigger: chatRoomTrigger,
                       errorTracker: errorTracker)
     }
 }
@@ -135,7 +145,7 @@ extension FriendsListViewModel {
     func createRealtimeSubscription() -> PublishRelay<Bool> {
         let updateTracker = PublishRelay<Bool>()
         Task {
-            let messageRelay = await self.supabaseManager.setUpRealtimeListener()
+            let messageRelay = await self.supabaseManager.setUpFriendsRealtimeListener()
             messageRelay.subscribe(onNext: { message in
                 
                 #if DEBUG

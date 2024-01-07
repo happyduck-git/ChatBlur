@@ -13,16 +13,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     var window: UIWindow?
 
-
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
-        
 
-        
         Task {
             do {
                 let session = try await supabaseManager.checkSession()
+                self.saveToUserDefaults(userId: session.user.id)
+                
                 let vm = TabbarViewModel(session: session)
                 let vc = MainTabbarViewController(vm: vm)
                 DispatchQueue.main.async { [weak self] in
@@ -76,3 +75,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 }
 
+extension SceneDelegate {
+    // Save session user id in UserDefaults
+    private func saveToUserDefaults(userId: UUID) {
+        UserDefaults.standard.setValue(userId.uuidString,
+                                       forKey: UserDefaultsConstants.userId)
+    }
+}

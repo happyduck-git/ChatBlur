@@ -85,6 +85,7 @@ extension FriendsListViewController {
         
         let input = FriendsListViewModel.Input(addFriendEmail: emailTextInput)
         
+        //MARK: - Output subscription
         let output = vm.transform(input: input)
         
         let dataSource = self.createDataSource()
@@ -95,6 +96,18 @@ extension FriendsListViewController {
         
         output.addFriendRelay
             .subscribe()
+            .disposed(by: disposeBag)
+        
+        output.chatRoomTrigger
+            .subscribe(onNext: { [weak self] friend in
+                guard let `self` = self else { return }
+          
+                DispatchQueue.main.async {
+                    let vm = ChatRoomViewModel(friendId: friend.id)
+                    let vc = ChatRoomViewController(vm: vm)
+                    self.show(vc, sender: self)
+                }
+            })
             .disposed(by: disposeBag)
         
         output.errorTracker
@@ -192,6 +205,10 @@ extension FriendsListViewController: UITableViewDelegate {
         }
         
         return UISwipeActionsConfiguration(actions: [delete])
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        return
     }
 }
 

@@ -13,8 +13,8 @@ struct ChatMessage: Codable {
     let sender: UUID
     let receiver: UUID
     let message: String
-    var image: String?
-    var video: String?
+    var image: String? = nil
+    var video: String? = nil
     
     enum CodingKeys: String, CodingKey {
         case id

@@ -42,8 +42,16 @@ enum FriendsViewConstants {
     static let remove = String(localized: "Remove")
 }
 
+enum ChatRoomConstants {
+    static let textFieldPlaceholder = String(localized: "Type your message here :)")
+}
+
 enum ErrorConstants {
     static let errorTitle = String(localized: "Error")
     static let errorMsg = String(localized: "Error occurred. ")
     static let confirm = String(localized: "Confirm")
+}
+
+enum UserDefaultsConstants {
+    static let userId = "user-id"
 }

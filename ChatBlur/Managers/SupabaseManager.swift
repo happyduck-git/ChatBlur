@@ -29,8 +29,9 @@ final actor SupabaseManager {
         case profileId = "profile_id"
         case friendName = "friend_name"
         case fetchMessages = "fetch_messages"
-        case sender = "_sender"
-        case receiver = "_receiver"
+        case fetchMessages2 = "fetch_messages2"
+        case sender = "message_sender"
+        case receiver = "message_receiver"
     }
     
     enum Profiles: String {
@@ -38,6 +39,10 @@ final actor SupabaseManager {
         case profiles
         case email
         case friendsList = "friends_list"
+    }
+    
+    enum Messages: String {
+        case messages
     }
     
     private let supabase: SupabaseClient = SupabaseClient(supabaseURL: EnvironmentConfig.supabaseUrl,
@@ -112,7 +117,9 @@ extension SupabaseManager: Repository {
         let friend = try await self.findUser(with: email)
 
         guard let friend else {
+            #if DEBUG
             print("Friend with \(email) is not found in DB.")
+            #endif
             return
         }
         
@@ -124,6 +131,14 @@ extension SupabaseManager: Repository {
                     SupabaseFunction.friendName.rawValue: "\(friend.id)"
                 ]
             )
+            .execute()
+    }
+    
+    func saveMessage(_ message: ChatMessage) async throws {
+        try await supabase
+            .database
+            .from(Messages.messages.rawValue)
+            .insert(message)
             .execute()
     }
     
@@ -168,25 +183,80 @@ extension SupabaseManager: Repository {
 
 //MARK: - Messages
 extension SupabaseManager {
+
     func fetchMessages(from sender: UUID, to recepient: UUID) async throws -> [ChatMessage] {
+        #if DEBUG
+        print("Sender: \(sender) : Receipient: \(recepient)")
+        #endif
+        
         let messages: [ChatMessage] = try await supabase.database
             .rpc(
-                SupabaseFunction.fetchMessages.rawValue,
+                SupabaseFunction.fetchMessages2.rawValue,
                 params: [
-                    SupabaseFunction.sender.rawValue: "\(sender)",
-                    SupabaseFunction.receiver.rawValue: "\(recepient)"
+                    SupabaseFunction.receiver.rawValue: recepient,
+                    SupabaseFunction.sender.rawValue: sender
                 ]
             )
             .execute()
             .value
-        
+       
         return messages
     }
+
 }
 
 //MARK: - Set up Realtime
 extension SupabaseManager {
-    func setUpRealtimeListener() -> PublishRelay<Message> {
+    func setUpRealtimeListener(on channel: String, schema: String) -> PublishRelay<Message> {
+        supabase.realtime.connect()
+        
+        let messageRelay = PublishRelay<Message>()
+        
+        var publicSchema: RealtimeChannel?
+        
+        publicSchema = supabase.realtime.channel(channel)
+            .on("postgres_changes", filter: ChannelFilter(event: "INSERT", schema: schema)) {
+                messageRelay.accept($0)
+            }
+            .on("postgres_changes", filter: ChannelFilter(event: "UPDATE", schema: schema)) {
+                messageRelay.accept($0)
+            }
+
+        publicSchema?.onError { err in
+            print("ERROR -- \(err)")
+        }
+        publicSchema?.onClose { close in
+            print("Closed gracefully")
+        }
+        publicSchema?
+          .subscribe { state, _ in
+            switch state {
+            case .subscribed:
+                print("Channel subscribed")
+            case .closed:
+                print("Channel closed")
+            case .timedOut:
+                print("Channel time out")
+            case .channelError:
+                print("Channel error")
+            }
+          }
+
+        supabase.realtime.connect()
+        supabase.realtime.onOpen {
+            print("Channel socket open")
+        }
+        supabase.realtime.onClose {
+            print("Channel socket closed")
+        }
+        supabase.realtime.onError { error, _ in
+            print("Channel socket error: \(error.localizedDescription)")
+        }
+        
+        return messageRelay
+    }
+    
+    func setUpFriendsRealtimeListener() -> PublishRelay<Message> {
         supabase.realtime.connect()
         
         let messageRelay = PublishRelay<Message>()

@@ -7,13 +7,15 @@
 
 import UIKit
 import UIKitBooster
+import RxSwift
+import RxCocoa
+import RxDataSources
 
 final class ChatRoomViewController: UIViewController {
-
-    // TEMP
-    private var testChatData: [String] = []
     
-    private let vm: ChatListViewModel
+    private let vm: ChatRoomViewModel
+    
+    private let disposeBag = DisposeBag()
     
     //MARK: - UI Elements
     private var keyboardHeight: CGFloat = 0
@@ -33,24 +35,24 @@ final class ChatRoomViewController: UIViewController {
     private let chatTableView: UITableView = {
         let table = UITableView()
         table.backgroundColor = .systemOrange
-        table.register(UITableViewCell.self,
-                       forCellReuseIdentifier: UITableViewCell.identifier)
+        table.register(MeTableViewCell.self,
+                       forCellReuseIdentifier: MeTableViewCell.identifier)
+        table.register(YouTableViewCell.self,
+                       forCellReuseIdentifier: YouTableViewCell.identifier)
         return table
     }()
     
     private let chatTextField: UITextField = {
         let textField = UITextField()
         textField.borderStyle = .roundedRect
-        textField.backgroundColor = .systemRed
-        textField.placeholder = "Write Something"
+        textField.backgroundColor = .secondarySystemBackground
+        textField.placeholder = ChatRoomConstants.textFieldPlaceholder
         return textField
     }()
     
-    init(vm: ChatListViewModel) {
+    init(vm: ChatRoomViewModel) {
         self.vm = vm
         super.init(nibName: nil, bundle: nil)
-        
-        self.bind(with: self.vm)
     }
     
     required init?(coder: NSCoder) {
@@ -62,18 +64,14 @@ final class ChatRoomViewController: UIViewController {
         super.viewDidLoad()
         self.dismissKeyboard()
         
-        for i in 0...100 {
-            self.testChatData.append("\(i)")
-        }
-
         self.setUI()
         self.setLayout()
         self.setDelegate()
         
-        self.setNotification()
+        self.setNotification()  
+      
+        self.bind(with: self.vm)
         
-//        self.demoSaveFriend()
-//        self.demo_fetchFriendsList()
     }
 
     override func viewDidLayoutSubviews() {
@@ -84,17 +82,43 @@ final class ChatRoomViewController: UIViewController {
 }
 
 extension ChatRoomViewController {
-    private func bind(with vm: ChatListViewModel) {
-        let _ = vm.transform(input: ChatListViewModel.Input())
+    private func bind(with vm: ChatRoomViewModel) {
+        
+        let keyboardReturnTrigger = self.chatTextField.rx
+            .controlEvent(.editingDidEndOnExit)
+            .map({ [weak self] _ in
+                guard let `self` = self else { return String() }
+                return self.chatTextField.text ?? String()
+            })
+            .asObservable()
+        
+        let input = ChatRoomViewModel.Input(
+            keyboardReturnTrigger: keyboardReturnTrigger
+        )
+        
+        let dataSource = self.createDataSource()
+        
+        let output = vm.transform(input: input)
+        output.sectionData
+            .bind(to: self.chatTableView.rx.items(dataSource: dataSource))
+            .disposed(by: disposeBag)
+        
+        output.saveNewMessage
+            .subscribe()
+            .disposed(by: disposeBag)
+        
+        output.errorTracker
+            .subscribe(onNext: {
+                print("Error -- \($0)")
+            })
+            .disposed(by: disposeBag)
+        
     }
 }
 
 extension ChatRoomViewController {
     
     private func setDelegate() {
-        self.chatTableView.delegate = self
-        self.chatTableView.dataSource = self
-        
         self.chatTextField.delegate = self
     }
     
@@ -146,20 +170,40 @@ extension ChatRoomViewController {
     }
 }
 
-extension ChatRoomViewController: UITableViewDelegate, UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return testChatData.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: UITableViewCell.identifier,
-                                      for: indexPath)
-        
-        var config = cell.defaultContentConfiguration()
-        config.text = testChatData[indexPath.row]
-        cell.contentConfiguration = config
-        
-        return cell
+extension ChatRoomViewController {
+    /// Create data source for table view.
+    /// - Returns: RxTableViewSectionedReloadDataSource
+    private func createDataSource() -> RxTableViewSectionedReloadDataSource<ChatMessageSectionData> {
+        let dataSource = RxTableViewSectionedReloadDataSource<ChatMessageSectionData> { datasource, table, indexPath, item in
+
+            #if DEBUG
+                print("Chat Item: \(item)")
+            #endif
+            
+            guard let userId = self.vm.userId else {
+                return UITableViewCell()
+            }
+            
+            if item.sender == userId {
+                guard let meCell = table.dequeueReusableCell(withIdentifier: MeTableViewCell.identifier,
+                                                           for: indexPath) as? MeTableViewCell else {
+                    return UITableViewCell()
+                }
+                meCell.configure(with: item)
+                return meCell
+                
+            } else {
+                guard let youCell = table.dequeueReusableCell(withIdentifier: YouTableViewCell.identifier,
+                                                           for: indexPath) as? YouTableViewCell else {
+                    return UITableViewCell()
+                }
+                youCell.configure(with: item)
+                return youCell
+            }
+
+        }
+
+        return dataSource
     }
 }
 
@@ -194,39 +238,6 @@ extension ChatRoomViewController: UITextFieldDelegate {
         self.view.setNeedsLayout()
     }
 
-}
-
-extension ChatRoomViewController {
-    //test3@mail.com
-    //test2@email.com
-//    private func demoSaveFriend() {
-//        Task {
-//            do {
-//                try await SupabaseManager.shared
-//                    .saveFriend(with: "test3@mail.com")
-//            }
-//            catch {
-//                print("Error saving friend. -- \(error)")
-//            }
-//        }
-//        
-//    }
-    
-//    private func demo_fetchFriendsList() {
-//        let supabase = SupabaseManager.shared
-//        
-//        Task {
-//            do {
-//                let user = try await supabase.fetchUserInfo()
-//                print("User: \(user.id)")
-//                let list = try await supabase.fetchFriends(of: user.id)
-//                print("Friends list: \(list)")
-//            }
-//            catch {
-//                print("Error fetching friends list -- \(error)")
-//            }
-//        }
-//    }
 }
 
 //@available(iOS 17, *)
